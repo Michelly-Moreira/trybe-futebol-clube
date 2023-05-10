@@ -24,6 +24,7 @@
     "mocha"
   ],
   "rules": {
+    // "mocha/no-mocha-arrows": "off", pra não dar conflito com a regra testando typescript
     "no-underscore-dangle": "off",
     "no-console": "off",
     "camelcase": "warn",
