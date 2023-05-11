@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import db from '.';
+import sequelize from '.';
 
 class MatcherModel extends Model {
   declare id: number;
@@ -38,7 +38,7 @@ MatcherModel.init({
     type: DataTypes.BOOLEAN,
   },
 }, {
-  sequelize: db,
+  sequelize,
   modelName: 'MatcherModel',
   underscored: true, // torna o que está em camelCase em snekeize
   timestamps: false,
