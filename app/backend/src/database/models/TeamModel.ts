@@ -1,7 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-class TeamModel extends Model {
+export interface TeamAtributes{
+  id: number;
+  teamName: string;
+}
+
+export type TeamCreationAtributes = Omit<TeamAtributes, 'id'>;
+
+class TeamModel extends Model<TeamAtributes, TeamCreationAtributes> {
   declare id: number;
   declare teamName: string;
 }
