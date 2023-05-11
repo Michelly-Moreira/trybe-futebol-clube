@@ -1,7 +1,18 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-class MatcherModel extends Model {
+export interface MatcherAtributes{
+  id: number;
+  homeTeamId: number;
+  homeTeamGoals: number;
+  awayTeamId: number;
+  awayTeamGoals: number;
+  inProgress: boolean;
+}
+
+export type MatcherCreationAtributes = Omit<MatcherAtributes, 'id'>;
+
+class MatcherModel extends Model<MatcherAtributes, MatcherCreationAtributes> {
   declare id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
