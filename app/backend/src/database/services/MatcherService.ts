@@ -2,8 +2,8 @@ import MatcherModel, { MatcherAtributes, MatcherCreationAtributes } from '../mod
 
 class MatcherService {
   public static async create(matches: MatcherCreationAtributes): Promise<MatcherAtributes> {
-    const teamCreated = await MatcherModel.create(matches);
-    return teamCreated.toJSON();
+    const matcherCreated = await MatcherModel.create(matches);
+    return matcherCreated.toJSON();
   }
 }
 

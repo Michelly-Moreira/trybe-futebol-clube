@@ -1,7 +1,17 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-class UserModel extends Model {
+export interface UserAtributes{
+  id: number;
+  username: string;
+  role: string;
+  email: string;
+  password: string;
+}
+
+export type UserCreationAtributes = Omit<UserAtributes, 'id'>;
+
+class UserModel extends Model<UserAtributes, UserCreationAtributes> {
   declare id: number;
   declare username: string;
   declare role: string;
