@@ -1,4 +1,4 @@
-import { Model, INTEGER, STRING } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
 class TeamModel extends Model {
@@ -11,11 +11,11 @@ TeamModel.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   teamName: {
     allowNull: false,
-    type: STRING,
+    type: DataTypes.STRING,
   },
 }, {
   sequelize: db,

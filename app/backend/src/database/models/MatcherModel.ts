@@ -1,4 +1,4 @@
-import { Model, INTEGER, BOOLEAN } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
 class MatcherModel extends Model {
@@ -15,27 +15,27 @@ MatcherModel.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   homeTeamId: {
     allowNull: false,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   homeTeamGoals: {
     allowNull: false,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   awayTeamId: {
     allowNull: false,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   awayTeamGoals: {
     allowNull: false,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   inProgress: {
     allowNull: false,
-    type: BOOLEAN,
+    type: DataTypes.BOOLEAN,
   },
 }, {
   sequelize: db,

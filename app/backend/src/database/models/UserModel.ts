@@ -1,4 +1,4 @@
-import { Model, INTEGER, STRING } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
 class UserModel extends Model {
@@ -13,23 +13,23 @@ UserModel.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: INTEGER,
+    type: DataTypes.INTEGER,
   },
   username: {
     allowNull: false,
-    type: STRING,
+    type: DataTypes.STRING,
   },
   role: {
     allowNull: false,
-    type: STRING,
+    type: DataTypes.STRING,
   },
   email: {
     allowNull: false,
-    type: STRING,
+    type: DataTypes.STRING,
   },
   password: {
     allowNull: false,
-    type: STRING,
+    type: DataTypes.STRING,
   },
 }, {
   sequelize: db,
