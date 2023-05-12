@@ -14,8 +14,10 @@ class TeamService {
   }
 
   public static async findById(id: number): Promise<TeamAtributes | null> {
-    const teamById = await TeamModel.findOne({ where: { id } });
-    return teamById;
+    const teamFound = await TeamModel.findOne({
+      where: { id },
+    });
+    return teamFound;
   }
 }
 
