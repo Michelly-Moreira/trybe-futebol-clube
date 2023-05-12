@@ -12,6 +12,11 @@ class TeamService {
     const teams = await TeamModel.findAll();
     return teams.map((team) => team.toJSON());
   }
+
+  public static async findById(id: number): Promise<TeamAtributes | null> {
+    const teamById = await TeamModel.findOne({ where: { id } });
+    return teamById;
+  }
 }
 
 export default TeamService;

@@ -43,7 +43,7 @@ UserModel.init({
   },
 }, {
   sequelize: db,
-  modelName: 'UserModel',
+  modelName: 'users',
   underscored: true, // torna o que está em camelCase em snekeize
   timestamps: false,
 });

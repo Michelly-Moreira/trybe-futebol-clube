@@ -26,7 +26,7 @@ TeamModel.init({
   },
 }, {
   sequelize: db,
-  modelName: 'teams',
+  modelName: 'teams', // nome da tabela
   underscored: true, // torna o que está em camelCase em snekeize
   timestamps: false,
 });

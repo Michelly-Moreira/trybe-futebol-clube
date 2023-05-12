@@ -50,7 +50,7 @@ MatcherModel.init({
   },
 }, {
   sequelize: db,
-  modelName: 'MatcherModel',
+  modelName: 'matches',
   underscored: true, // torna o que está em camelCase em snekeize
   timestamps: false,
 });
