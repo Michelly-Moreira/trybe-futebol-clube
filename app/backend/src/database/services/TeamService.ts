@@ -1,7 +1,7 @@
 import TeamModel, { TeamAtributes, TeamCreationAtributes } from '../models/TeamModel';
 
 // criando um time
-class TeamService {
+export default class TeamService {
   public static async create(teams: TeamCreationAtributes): Promise<TeamAtributes> {
     const teamCreated = await TeamModel.create(teams);
     return teamCreated.toJSON();
@@ -13,6 +13,7 @@ class TeamService {
     return teams.map((team) => team.toJSON());
   }
 
+  // busca um time pelo id
   public static async findById(id: number): Promise<TeamAtributes | null> {
     const teamFound = await TeamModel.findOne({
       where: { id },
@@ -20,5 +21,3 @@ class TeamService {
     return teamFound;
   }
 }
-
-export default TeamService;
