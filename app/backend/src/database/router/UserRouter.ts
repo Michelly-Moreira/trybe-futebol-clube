@@ -4,6 +4,11 @@ import LoginMiddleware from '../middleware/LoginValidation';
 
 const usersRouter = Router();
 
-usersRouter.post('/', LoginMiddleware.loginValidation, userController.signin);
+usersRouter.post(
+  '/',
+  LoginMiddleware.loginValidation,
+  LoginMiddleware.userValidation,
+  userController.signin,
+);
 
 export default usersRouter;
