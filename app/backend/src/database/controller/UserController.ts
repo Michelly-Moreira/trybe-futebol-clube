@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import UserService from '../services/UserService';
 
 export default class userController {
-  public static signin = async (req: Request, res: Response): Promise<Response> => {
+  public static async signin(req: Request, res: Response): Promise<Response> {
     try {
       const { email, password } = req.body;
       const login = await UserService.signin({ email, password });
@@ -10,5 +10,15 @@ export default class userController {
     } catch (error) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
-  };
+  }
+
+  public static async getRole(req: Request, res: Response): Promise<Response> {
+    try {
+      const { email } = req.body;
+      const role = await UserService.getRole(email);
+      return res.status(200).json({ role });
+    } catch (error) {
+      return res.status(401).json({ message: 'Token must be a valid token' });
+    }
+  }
 }
