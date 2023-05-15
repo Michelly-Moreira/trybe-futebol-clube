@@ -1,6 +1,7 @@
 // import * as bcrypt from 'bcryptjs'; importando desta forma precisa usar bcrypt.compareSync() ao invés de compareSync().
 
 import { compareSync } from 'bcryptjs';
+import { JwtPayload } from 'jsonwebtoken';
 import UserModel from '../models/UserModel';
 import Auth from '../utils/Auth';
 
@@ -19,14 +20,13 @@ export default class UserService {
   }
 
   // se o token for vàlido retorna a role
-  public static async getRole(email: string): Promise<string> {
-    const validEmail = await UserModel.findOne({
-      where: { email },
-    });
-    if (!validEmail) {
+  public static async getRole(token: string): Promise<string | JwtPayload> {
+    const payload = Auth.decodeToken(token);
+    // console.log(payload);
+    if (!payload) {
       throw new Error();
     }
-    const { role } = validEmail.dataValues;
+    const { role } = payload;
     return role;
   }
 }

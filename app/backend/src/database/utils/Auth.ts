@@ -1,4 +1,4 @@
-import { decode, sign, SignOptions, verify } from 'jsonwebtoken';
+import { decode, JwtPayload, sign, SignOptions, verify } from 'jsonwebtoken';
 
 const secretKey: string = process.env.JWT_SECRET as string;
 
@@ -21,8 +21,8 @@ export default class Auth {
   }
 
   // decodificando para leitura do conteúdo do token
-  public static decodeToken(token: string) {
+  public static decodeToken(token: string): JwtPayload {
     const decoded = decode(token);
-    return decoded;
+    return decoded as JwtPayload;
   }
 }
