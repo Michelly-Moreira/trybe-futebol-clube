@@ -1,4 +1,4 @@
-import { sign, SignOptions, verify } from 'jsonwebtoken';
+import { decode, sign, SignOptions, verify } from 'jsonwebtoken';
 
 const secretKey: string = process.env.JWT_SECRET as string;
 
@@ -18,5 +18,11 @@ export default class Auth {
   public static validateToken(token: string) {
     const isValid = verify(token, secretKey);
     return isValid;
+  }
+
+  // decodificando para leitura do conteúdo do token
+  public static decodeToken(token: string) {
+    const decoded = decode(token);
+    return decoded;
   }
 }

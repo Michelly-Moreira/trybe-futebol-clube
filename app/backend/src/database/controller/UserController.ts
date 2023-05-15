@@ -14,8 +14,8 @@ export default class userController {
 
   public static async getRole(req: Request, res: Response): Promise<Response> {
     try {
-      const { email } = req.body;
-      const role = await UserService.getRole(email);
+      const { authorization } = req.headers;
+      const role = await UserService.getRole(authorization);
       return res.status(200).json({ role });
     } catch (error) {
       return res.status(401).json({ message: 'Token must be a valid token' });
