@@ -55,4 +55,11 @@ export default class MatchService {
     await MatchModel.update({ inProgress: false }, { where: { id } });
     return { message: 'Finished' };
   }
+
+  // alterando o resultado de uma partida
+  public static async matchInProgress(id: number, matches: {
+    homeTeamGoals: number, awayTeamGoals: number }): Promise<{ message: string }> {
+    await MatchModel.update(matches, { where: { id } });
+    return { message: 'congratulations!' };
+  }
 }

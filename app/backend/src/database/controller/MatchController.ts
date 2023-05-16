@@ -22,8 +22,8 @@ export default class MatchController {
 
   public static async matchInProgress(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { homeTeam, awayTeam } = req.body;
-    const activeMatch = await MatchService.matchInProgress(+id, { homeTeam, awayTeam });
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const activeMatch = await MatchService.matchInProgress(+id, { homeTeamGoals, awayTeamGoals });
     return res.status(200).json(activeMatch);
   }
 }
