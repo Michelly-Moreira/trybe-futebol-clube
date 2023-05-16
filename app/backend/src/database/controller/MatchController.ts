@@ -13,6 +13,11 @@ export default class MatchController {
     const allMatches = await MatchService.getAllMatches();
     return res.status(200).json(allMatches);
   }
+
+  public static async addByIdd(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    console.log(id);
+  }
 }
 
 // req.query sempre retorna string, para retornar valor boolean(linha 9):
