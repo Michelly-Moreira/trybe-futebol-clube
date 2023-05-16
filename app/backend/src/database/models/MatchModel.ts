@@ -1,7 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
+import TeamModel from './TeamModel';
 
-export interface MatcherAtributes{
+export interface MatchAtributes{
   id: number;
   homeTeamId: number;
   homeTeamGoals: number;
@@ -10,9 +11,9 @@ export interface MatcherAtributes{
   inProgress: boolean;
 }
 
-export type MatcherCreationAtributes = Omit<MatcherAtributes, 'id'>;
+export type MatchCreationAtributes = Omit<MatchAtributes, 'id'>;
 
-class MatcherModel extends Model<MatcherAtributes, MatcherCreationAtributes> {
+class MatchModel extends Model<MatchAtributes, MatchCreationAtributes> {
   declare id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
@@ -21,7 +22,7 @@ class MatcherModel extends Model<MatcherAtributes, MatcherCreationAtributes> {
   declare inProgress: boolean;
 }
 
-MatcherModel.init({
+MatchModel.init({
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -31,6 +32,12 @@ MatcherModel.init({
   homeTeamId: {
     allowNull: false,
     type: DataTypes.INTEGER,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: 'teams',
+      key: 'id',
+    },
   },
   homeTeamGoals: {
     allowNull: false,
@@ -39,6 +46,12 @@ MatcherModel.init({
   awayTeamId: {
     allowNull: false,
     type: DataTypes.INTEGER,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    references: {
+      model: 'teams',
+      key: 'id',
+    },
   },
   awayTeamGoals: {
     allowNull: false,
@@ -55,4 +68,9 @@ MatcherModel.init({
   timestamps: false,
 });
 
-export default MatcherModel;
+TeamModel.hasMany(MatchModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+TeamModel.hasMany(MatchModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });
+MatchModel.belongsTo(TeamModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+MatchModel.belongsTo(TeamModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });
+
+export default MatchModel;
