@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import MatchController from '../controller/MatchController';
+import TokenMiddleware from '../middleware/TokenValidation';
 
 const matchesRouter = Router();
 
 matchesRouter.get('/', MatchController.findMatches);
-matchesRouter.patch('/:id/finish', MatchController.addByIdd);
+matchesRouter.patch('/:id/finish', TokenMiddleware.tokenValidation, MatchController.finishMatch);
 
 export default matchesRouter;
