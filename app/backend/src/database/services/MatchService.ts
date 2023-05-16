@@ -49,4 +49,10 @@ export default class MatchService {
     });
     return match;
   }
+
+  // alterando a partida
+  public static async addById(id: number): Promise<{ message: string }> {
+    await MatchModel.update({ inProgress: false }, { where: { id } });
+    return { message: 'Finished' };
+  }
 }
