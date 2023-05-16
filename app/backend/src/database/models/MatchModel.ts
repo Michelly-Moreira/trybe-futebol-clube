@@ -60,6 +60,7 @@ MatchModel.init({
   inProgress: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
+    defaultValue: true,
   },
 }, {
   sequelize: db,
