@@ -13,7 +13,7 @@ export interface MatchAtributes{
 
 export type MatchCreationAtributes = Omit<MatchAtributes, 'id'>;
 
-class MatchModel extends Model<MatchAtributes, MatchCreationAtributes> {
+export default class MatchModel extends Model<MatchAtributes, MatchCreationAtributes> {
   declare id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
@@ -68,9 +68,10 @@ MatchModel.init({
   timestamps: false,
 });
 
+// estabelecendo associações (relacionamentos) entre o MatchModel e o TeamModel:
 TeamModel.hasMany(MatchModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
 TeamModel.hasMany(MatchModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 MatchModel.belongsTo(TeamModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
 MatchModel.belongsTo(TeamModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });
-
-export default MatchModel;
+// Uma partida pertence tanto ao time da casa quanto ao time visitante,
+// portanto, defini os relacionamentos de chave estrangeira usando os métodos belongsTo e hasMany fornecidos pelo Sequelize.
