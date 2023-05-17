@@ -12,6 +12,9 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Testes do endpoint /login', () => {
+  // arrange => dado um contexto
+  // act => ao executar um código
+  // assertion => espero um resultado específico
   it('Seu sub-teste', () => {
     expect(false).to.be.equal(true);
   });
