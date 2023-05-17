@@ -13,6 +13,6 @@ const { expect } = chai;
 
 describe('Testes do endpoint /login', () => {
   it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+    expect(false).to.be.equal(true);
   });
 });
