@@ -19,7 +19,7 @@ export default class UserService {
     return token;
   }
 
-  // se o token for vàlido retorna a role
+  // Verifica se o token é válido, se for vàlido retorna a role que está dentro do token
   public static async getRole(token: string): Promise<string | JwtPayload> {
     const payload = Auth.decodeToken(token);
     // console.log(payload);

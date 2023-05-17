@@ -2,11 +2,6 @@ import MatchModel, { MatchAtributes, MatchCreationAtributes } from '../models/Ma
 import TeamModel from '../models/TeamModel';
 
 export default class MatchService {
-  public static async create(matches: MatchCreationAtributes): Promise<MatchAtributes> {
-    const matchCreated = await MatchModel.create(matches);
-    return matchCreated.toJSON();
-  }
-
   // lista todas as partidas, com todos os dados
   public static async getAllMatches(): Promise<MatchAtributes[]> {
     const matches = await MatchModel.findAll({
@@ -56,10 +51,16 @@ export default class MatchService {
     return { message: 'Finished' };
   }
 
-  // alterando o resultado de uma partida
+  // alterando o resultado de uma partida(atualização)
   public static async matchInProgress(id: number, matches: {
     homeTeamGoals: number, awayTeamGoals: number }): Promise<{ message: string }> {
     await MatchModel.update(matches, { where: { id } });
     return { message: 'congratulations!' };
+  }
+
+  // cadastrando uma nova partida no banco de dados
+  public static async create(matches: MatchCreationAtributes): Promise<MatchAtributes> {
+    const matchCreated = await MatchModel.create(matches);
+    return matchCreated.toJSON();
   }
 }

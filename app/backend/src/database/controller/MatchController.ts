@@ -26,6 +26,12 @@ export default class MatchController {
     const activeMatch = await MatchService.matchInProgress(+id, { homeTeamGoals, awayTeamGoals });
     return res.status(200).json(activeMatch);
   }
+
+  public static async create(req: Request, res: Response): Promise<Response> {
+    const { matches } = req.body;
+    const createMatch = await MatchService.create(matches);
+    return res.status(201).json(createMatch);
+  }
 }
 
 // req.query sempre retorna string, para retornar valor boolean(linha 9):
