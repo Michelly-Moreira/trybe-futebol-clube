@@ -1,5 +1,6 @@
 import MatchModel, { MatchAtributes, MatchCreationAtributes } from '../models/MatchModel';
 import TeamModel from '../models/TeamModel';
+import TeamService from './TeamService';
 
 export default class MatchService {
   // lista todas as partidas, com todos os dados
@@ -58,9 +59,14 @@ export default class MatchService {
     return { message: 'congratulations!' };
   }
 
-  // cadastrando uma nova partida no banco de dados
-  public static async create(matches: MatchCreationAtributes): Promise<MatchAtributes> {
-    const matchCreated = await MatchModel.create(matches);
+  // cadastrando uma nova partida no banco de dados com validação
+  public static async create(newMatch: MatchCreationAtributes): Promise<MatchAtributes | string> {
+    const homeTeam = await TeamService.findById(newMatch.homeTeamId);
+    const awayTeam = await TeamService.findById(newMatch.awayTeamId);
+    if (!homeTeam || !awayTeam) {
+      throw new Error();
+    }
+    const matchCreated = await MatchModel.create(newMatch);
     return matchCreated.toJSON();
   }
 }

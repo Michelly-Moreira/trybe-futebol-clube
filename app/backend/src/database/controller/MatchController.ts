@@ -28,9 +28,17 @@ export default class MatchController {
   }
 
   public static async create(req: Request, res: Response): Promise<Response> {
-    const { matches } = req.body;
-    const createMatch = await MatchService.create(matches);
-    return res.status(201).json(createMatch);
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+    try {
+      const createMatch = await MatchService.create({
+        homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals, inProgress: true,
+      });
+      return res.status(201).json(createMatch);
+    } catch (error) {
+      return res.status(404).json({
+        message: 'There is no team with such id!',
+      });
+    }
   }
 }
 
