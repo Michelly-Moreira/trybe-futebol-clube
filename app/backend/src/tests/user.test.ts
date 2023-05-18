@@ -120,5 +120,20 @@ describe('Testes da Service User', () => {
         expect(response.body.message).to.be.equal(invalidToken)
       });
     });
+    /* describe('Se a requisição recebe um token válido', () => {
+      it('é possível retornar os dados corretos', async () => {
+        const token = new Auth().generateToken({
+          email: 'admin@admin.com',
+          role: 'admin',
+        });
+       
+        const response = await chai.request(app)
+        .get('/login/role')
+        .set('Authorization', token);
+
+        expect(response.status).to.be.equal(200);
+        expect(response.body.message).to.be.deep.equal({ "role": "admin" })
+      });
+    }); */
   });
 });
