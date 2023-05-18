@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import UserModel from '../database/models/UserModel';
-import { mockValidUser, mockInvalidUser, failureMessage, invalidDataMessage } from './mocks/UserMock';
+import { mockValidUser, mockInvalidUser, failureMessage, invalidDataMessage, withoutToken, invalidToken } from './mocks/UserMock';
 import Auth from '../database/utils/Auth';
 
 chai.use(chaiHttp);
@@ -84,7 +84,7 @@ describe('Testes da Service User', () => {
         expect(response.body.message).to.be.equal(invalidDataMessage)
       });
     });
-    /* describe('Se a requisição recebe campos válidos', () => {
+      /* describe('Se a requisição recebe campos válidos', () => {
       it('é possível fazer login', async () => {
         sinon.stub(UserModel, 'findOne')
         .resolves(mockValidUser as unknown as UserModel);
@@ -99,5 +99,26 @@ describe('Testes da Service User', () => {
         expect(response.body.token).not.to.be.empty;
       });
     }); */
+  });
+  describe('getRole', () => {
+    describe('Se a requisição não recebe um token', () => {
+      it('não é possível retornar os dados corretos', async () => {
+        const response = await chai.request(app)
+        .get('/login/role')
+       
+        expect(response.status).to.be.equal(400);
+        expect(response.body.message).to.be.equal(withoutToken)
+      });
+    });
+    describe('Se a requisição recebe um token inválido', () => {
+      it('não é possível retornar os dados corretos', async () => {
+        const response = await chai.request(app)
+        .get('/login/role')
+        .set('Authorization', 'qualquersenha');
+       
+        expect(response.status).to.be.equal(400);
+        expect(response.body.message).to.be.equal(invalidToken)
+      });
+    });
   });
 });

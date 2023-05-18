@@ -1,25 +1,29 @@
 const mockValidUser = {
 id: 1,
-username: 'avaliando os testes',
-role: 'Teste',
-password: 'secret_key',
-email: 'user@test.com',
+username: 'Admin',
+role: 'admin',
+email: 'admin@admin.com',
+password: 'secret_admin',
 }
 
 const mockInvalidUser = {
 id: 1,
 username: 'avaliando os testes',
 role: 'Teste',
-password: 'secret_key',
 email: 'user@test.com',
+password: 'secret_key',
 }
 
 const failureMessage = 'All fields must be filled';
 const invalidDataMessage = 'Invalid email or password';
+const withoutToken = 'Token not found';
+const invalidToken = 'Token must be a valid token'
 
 export {
   mockValidUser,
   mockInvalidUser,
   failureMessage,
   invalidDataMessage,
+  withoutToken,
+  invalidToken,
 }
