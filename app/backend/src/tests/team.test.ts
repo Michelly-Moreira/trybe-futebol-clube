@@ -48,8 +48,8 @@ describe('Testes da service Team', () => {
          const response = await chai.request(app)
          .get('/teams/13')
         
-        expect(response.status).to.be.equal(201);
-        expect(response.body).to.be.deep.equal([])
+        expect(response.status).to.be.equal(200);
+        expect(response.body).to.be.deep.equal(mockOneTeam)
       });
     }) 
   })  
