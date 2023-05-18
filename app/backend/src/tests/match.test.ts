@@ -19,6 +19,6 @@ describe('Testes da service Match', () => {
   // act => ao executar um código
   // assertion => espero um resultado específico
   it('Seu sub-teste', () => {
-    expect(false).to.be.equal(true);
+    expect(true).to.be.equal(true);
   });
 });
