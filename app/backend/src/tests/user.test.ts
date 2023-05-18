@@ -106,7 +106,7 @@ describe('Testes da Service User', () => {
         const response = await chai.request(app)
         .get('/login/role')
        
-        expect(response.status).to.be.equal(400);
+        expect(response.status).to.be.equal(401);
         expect(response.body.message).to.be.equal(withoutToken)
       });
     });
@@ -116,7 +116,7 @@ describe('Testes da Service User', () => {
         .get('/login/role')
         .set('Authorization', 'qualquersenha');
        
-        expect(response.status).to.be.equal(400);
+        expect(response.status).to.be.equal(401);
         expect(response.body.message).to.be.equal(invalidToken)
       });
     });
