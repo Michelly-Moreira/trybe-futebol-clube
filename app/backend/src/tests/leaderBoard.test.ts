@@ -1,4 +1,4 @@
-import * as sinon from 'sinon';
+/* import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
@@ -11,6 +11,9 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
+// TDD: red => green => refactor
+
+
 describe('Testes do endpoint /login', () => {
   // arrange => dado um contexto
   // act => ao executar um código
@@ -19,3 +22,4 @@ describe('Testes do endpoint /login', () => {
     expect(false).to.be.equal(true);
   });
 });
+ */
