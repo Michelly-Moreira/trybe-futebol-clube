@@ -16,6 +16,7 @@ export default class LeaderBoardService {
         name: team.teamName,
         totalGames: matches.length,
         goalsFavor: this.getGoalsFavor(matches, value),
+        goalsOwn: this.getGoalsOwn(matches, value),
       };
     }));
   }
