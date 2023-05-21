@@ -17,6 +17,7 @@ export default class LeaderBoardService {
         totalGames: matches.length,
         goalsFavor: this.getGoalsFavor(matches, value),
         goalsOwn: this.getGoalsOwn(matches, value),
+        // goalsBalance: this.getGoalsBalance(matches, value),
       };
     }));
   }
@@ -50,12 +51,22 @@ export default class LeaderBoardService {
       return resultGoalsOwnAway;
     }
   }
-}
 
-/*  public static getGoalsBalance() {
+  public static getGoalsBalance(matches: MatchAtributes[], typeTeam: string) {
     // saldo total de gols (goalsFavor - goalsOwn)
+    if (typeTeam === 'home') {
+      const goalsBalanceHome = matches.reduce((_acc, goal) =>
+        goal.homeTeamGoals - goal.awayTeamGoals, 0);
+      return goalsBalanceHome;
+    }
+    if (typeTeam === 'away') {
+      const goalsBalanceAway = matches.reduce((_acc, goal) =>
+        goal.awayTeamGoals - goal.homeTeamGoals, 0);
+      return goalsBalanceAway;
+    }
   }
-
+}
+/*
   public static getTotalDraws() {
   // total de empates, ambos ganham +1pt
   }
