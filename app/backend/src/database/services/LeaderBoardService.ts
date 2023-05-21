@@ -15,6 +15,9 @@ export default class LeaderBoardService {
       return {
         name: team.teamName,
         totalGames: matches.length,
+        totalVictories: this.getTotalVictories(matches, value),
+        totalDraws: this.getTotalDraws(matches, value),
+        totalLosses: this.getTotalLosses(matches, value),
         goalsFavor: this.getGoalsFavor(matches, value),
         goalsOwn: this.getGoalsOwn(matches, value),
         // goalsBalance: this.getGoalsBalance(matches, value),
@@ -65,24 +68,57 @@ export default class LeaderBoardService {
       return goalsBalanceAway;
     }
   }
-}
-/*
-  public static getTotalDraws() {
-  // total de empates, ambos ganham +1pt
-  }
 
-  public static getTotalVictories() {
+  // calculado quem ganhou e somando uma vitória ao time vencedor
+  public static getTotalVictories(matches: MatchAtributes[], typeTeam: string) {
   // total de vitórias, o time vitórioso da partida ganha +3pts a cada vitória
+    if (typeTeam === 'home') {
+      const totalVictoriesHome = matches.reduce((acc, goal) =>
+        (goal.homeTeamGoals > goal.awayTeamGoals ? acc + 1 : acc), 0);
+      return totalVictoriesHome;
+    }
+    if (typeTeam === 'away') {
+      const totalVictoriesAway = matches.reduce((acc, goal) =>
+        (goal.awayTeamGoals > goal.homeTeamGoals ? acc + 1 : acc), 0);
+      return totalVictoriesAway;
+    }
   }
 
-  public static getTotalLosses() {
+  // calculando empates
+  public static getTotalDraws(matches: MatchAtributes[], typeTeam: string) {
+  // total de empates, ambos ganham +1pt
+    if (typeTeam === 'home') {
+      const totalVictoriesHome = matches.reduce((acc, goal) =>
+        (goal.homeTeamGoals === goal.awayTeamGoals ? acc + 1 : acc), 0);
+      return totalVictoriesHome;
+    }
+    if (typeTeam === 'away') {
+      const totalVictoriesAway = matches.reduce((acc, goal) =>
+        (goal.awayTeamGoals === goal.homeTeamGoals ? acc + 1 : acc), 0);
+      return totalVictoriesAway;
+    }
+  }
+
+  // calculando derrotas entre os times da casa e os times visitantes
+  public static getTotalLosses(matches: MatchAtributes[], typeTeam: string) {
     // total de derrotas, o time derrotado não ganha ponto
+    if (typeTeam === 'home') {
+      const totalVictoriesHome = matches.reduce((acc, goal) =>
+        (goal.homeTeamGoals < goal.awayTeamGoals ? acc + 1 : acc), 0);
+      return totalVictoriesHome;
+    }
+    if (typeTeam === 'away') {
+      const totalVictoriesAway = matches.reduce((acc, goal) =>
+        (goal.awayTeamGoals < goal.homeTeamGoals ? acc + 1 : acc), 0);
+      return totalVictoriesAway;
+    }
   }
 
   public static getTotalPoints() {
   // total de pontos, em ordem decrescente
   }
-
+}
+/*
   public static PercentEfficiency() {
   // aproveitamento do time => [total de pontos / (totalGames*3)*100]
   } */
