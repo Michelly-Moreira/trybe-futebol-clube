@@ -6,21 +6,23 @@ import TeamService from './TeamService';
 // totalDraws, totalLosses, goalsFavor, goalsOwn
 
 export default class LeaderBoardService {
-  static async performanceInformation(value: string) {
+  static async performanceInformation(typeTeam: string) {
     const allTeams = await TeamService.findAll();
 
     return Promise.all(allTeams.map(async (team) => {
-      const matches = value === 'home' ? await MatchService.getHomeById(team.id)
+      const matches = typeTeam === 'home' ? await MatchService.getHomeById(team.id)
         : await MatchService.getAwayById(team.id);
       return {
         name: team.teamName,
+        totalPoints: typeTeam === 'home' ? this.getTotalHomePoints(matches)
+          : this.getTotalAwayPoints(matches),
         totalGames: matches.length,
-        totalVictories: this.getTotalVictories(matches, value),
-        totalDraws: this.getTotalDraws(matches, value),
-        totalLosses: this.getTotalLosses(matches, value),
-        goalsFavor: this.getGoalsFavor(matches, value),
-        goalsOwn: this.getGoalsOwn(matches, value),
-        // goalsBalance: this.getGoalsBalance(matches, value),
+        totalVictories: this.getTotalVictories(matches, typeTeam),
+        totalDraws: this.getTotalDraws(matches, typeTeam),
+        totalLosses: this.getTotalLosses(matches, typeTeam),
+        goalsFavor: this.getGoalsFavor(matches, typeTeam),
+        goalsOwn: this.getGoalsOwn(matches, typeTeam),
+        // goalsBalance: this.getGoalsBalance(matches, typeTeam),
       };
     }));
   }
@@ -88,14 +90,14 @@ export default class LeaderBoardService {
   public static getTotalDraws(matches: MatchAtributes[], typeTeam: string) {
   // total de empates, ambos ganham +1pt
     if (typeTeam === 'home') {
-      const totalVictoriesHome = matches.reduce((acc, goal) =>
+      const totalDrawsHome = matches.reduce((acc, goal) =>
         (goal.homeTeamGoals === goal.awayTeamGoals ? acc + 1 : acc), 0);
-      return totalVictoriesHome;
+      return totalDrawsHome;
     }
     if (typeTeam === 'away') {
-      const totalVictoriesAway = matches.reduce((acc, goal) =>
+      const totalDrawsAway = matches.reduce((acc, goal) =>
         (goal.awayTeamGoals === goal.homeTeamGoals ? acc + 1 : acc), 0);
-      return totalVictoriesAway;
+      return totalDrawsAway;
     }
   }
 
@@ -103,19 +105,45 @@ export default class LeaderBoardService {
   public static getTotalLosses(matches: MatchAtributes[], typeTeam: string) {
     // total de derrotas, o time derrotado não ganha ponto
     if (typeTeam === 'home') {
-      const totalVictoriesHome = matches.reduce((acc, goal) =>
+      const totalLossesHome = matches.reduce((acc, goal) =>
         (goal.homeTeamGoals < goal.awayTeamGoals ? acc + 1 : acc), 0);
-      return totalVictoriesHome;
+      return totalLossesHome;
     }
     if (typeTeam === 'away') {
-      const totalVictoriesAway = matches.reduce((acc, goal) =>
+      const totalLossesAway = matches.reduce((acc, goal) =>
         (goal.awayTeamGoals < goal.homeTeamGoals ? acc + 1 : acc), 0);
-      return totalVictoriesAway;
+      return totalLossesAway;
     }
   }
 
-  public static getTotalPoints() {
+  public static getTotalHomePoints(matches: MatchAtributes[]) {
   // total de pontos, em ordem decrescente
+    const totalPoints = matches.reduce((total, goal) => {
+      if (goal.homeTeamGoals > goal.awayTeamGoals) {
+        const points = total + 3;
+        return points;
+      }
+      if (goal.homeTeamGoals < goal.awayTeamGoals) {
+        return total;
+      }
+      return total + 1;
+    }, 0);
+    return totalPoints;
+  }
+
+  public static getTotalAwayPoints(matches: MatchAtributes[]) {
+    // total de pontos, em ordem decrescente
+    const totalPoints = matches.reduce((total, goal) => {
+      if (goal.awayTeamGoals > goal.homeTeamGoals) {
+        const points = total + 3;
+        return points;
+      }
+      if (goal.awayTeamGoals < goal.homeTeamId) {
+        return total;
+      }
+      return total + 1;
+    }, 0);
+    return totalPoints;
   }
 }
 /*
