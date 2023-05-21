@@ -69,4 +69,48 @@ export default class MatchService {
     const matchCreated = await MatchModel.create(newMatch);
     return matchCreated.toJSON();
   }
+
+  // buscando os times da casa com partidas finalizadas, pelo id.
+  public static async getHomeById(id: number): Promise<MatchAtributes[]> {
+    const allMatches = await MatchModel.findAll({
+      where: { homeTeamId: id, inProgress: false },
+      include: [
+        { model: TeamModel,
+          as: 'homeTeam',
+          attributes: {
+            exclude: ['id'],
+          },
+        },
+        { model: TeamModel,
+          as: 'awayTeam',
+          attributes: {
+            exclude: ['id'],
+          },
+        },
+      ],
+    });
+    return allMatches;
+  }
+
+  // buscando os times visitantes com partidas finalizadas, pelo id.
+  public static async getAwayById(id: number): Promise<MatchAtributes[]> {
+    const allMatches = await MatchModel.findAll({
+      where: { awayTeamId: id, inProgress: false },
+      include: [
+        { model: TeamModel,
+          as: 'homeTeam',
+          attributes: {
+            exclude: ['id'],
+          },
+        },
+        { model: TeamModel,
+          as: 'awayTeam',
+          attributes: {
+            exclude: ['id'],
+          },
+        },
+      ],
+    });
+    return allMatches;
+  }
 }

@@ -3,6 +3,7 @@ import LeaderBoardController from '../controller/LeaderBoardController';
 
 const leaderBoardRouter = Router();
 
-leaderBoardRouter.get('/home', LeaderBoardController.performanceInformation);
+leaderBoardRouter.get('/home', LeaderBoardController.performanceInformationHome);
+leaderBoardRouter.get('/away', LeaderBoardController.performanceInformationAway);
 
 export default leaderBoardRouter;
