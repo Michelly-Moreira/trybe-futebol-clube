@@ -4,7 +4,7 @@ export default class TeamService {
   // lista todos os times
   public static async findAll(): Promise<TeamAtributes[]> {
     const teams = await TeamModel.findAll();
-    return teams.map((team) => team.toJSON());
+    return teams;
   }
 
   // busca um time pelo id

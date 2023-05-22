@@ -8,7 +8,6 @@ export default class userController {
       const login = await UserService.signin({ email, password });
       return res.status(200).json({ token: login });
     } catch (error) {
-      console.log(error);
       return res.status(401).json({ message: 'Invalid email or password' });
     }
   }

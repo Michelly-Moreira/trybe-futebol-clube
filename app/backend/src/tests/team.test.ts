@@ -23,13 +23,12 @@ describe('Testes da service Team', () => {
     sinon.restore()
   })
 
-  /* describe('findAll', () => {
+    describe('findAll', () => {
     describe('Dado um banco populado', () => {
+     
       it('retorna uma lista com todos os times e seus ids', async () => {
-        
-          sinon.stub(TeamModel, 'findAll')
-        .resolves(mockAllTeams as unknown as TeamModel[]);
-        
+        sinon.stub(TeamModel, 'findAll')
+        .resolves(mockAllTeams as TeamModel[]);
          const response = await chai.request(app)
          .get('/teams')
         
@@ -37,7 +36,7 @@ describe('Testes da service Team', () => {
         expect(response.body).to.be.deep.equal(mockAllTeams)
       });
     }) 
-  }); */
+  });
   describe('findById', () => {
     describe('Dado um banco populado', () => {
       it('retorna o time correspondente ao id procurado', async () => {
