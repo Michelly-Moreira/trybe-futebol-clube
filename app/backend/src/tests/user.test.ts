@@ -135,7 +135,7 @@ describe('Testes da Service User', () => {
         .set('Authorization', token);
 
         expect(response.status).to.be.equal(200);
-        expect(response.body.message).to.be.deep.equal({ "role": "admin" })
+        expect(response.body).to.be.deep.equal({ "role": "admin" })
       });
     });
   });

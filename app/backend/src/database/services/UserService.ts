@@ -8,12 +8,11 @@ import Auth from '../utils/Auth';
 // signin  -> Se usuário já cadastrado retorna o token
 export default class UserService {
   public static async signin(users: { email: string, password: string }): Promise<string> {
-    console.log(users);
+    // console.log(users);
     const login = await UserModel.findOne({
       where: { email: users.email },
-    }); console.log(login);
+    }); // console.log(login);
     if (!login || !compareSync(users.password, login.dataValues.password)) {
-      console.log(compareSync(users.password, 'oi'));
       throw new Error();
     }
     const { email, role } = login.dataValues;
