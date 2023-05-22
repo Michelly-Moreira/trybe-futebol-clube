@@ -1,6 +1,6 @@
 import { decode, JwtPayload, sign, SignOptions, verify } from 'jsonwebtoken';
 
-const secretKey: string = process.env.JWT_SECRET as string;
+const secretKey: string = process.env.JWT_SECRET as string || 'secret';
 
 const configJTWT: SignOptions = {
   expiresIn: '7d', // o token gerado expira em 7 dias

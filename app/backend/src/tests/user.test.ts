@@ -6,6 +6,8 @@ import { app } from '../app';
 import UserModel from '../database/models/UserModel';
 import { mockValidUser, mockInvalidUser, failureMessage, invalidDataMessage, withoutToken, invalidToken } from './mocks/UserMock';
 import Auth from '../database/utils/Auth';
+import * as bcrypt from 'bcryptjs'; // importando desta forma precisa usar bcrypt.compareSync() ao invés de compareSync().
+
 
 chai.use(chaiHttp);
 
@@ -18,11 +20,10 @@ describe('Testes da Service User', () => {
   // arrange => dado um contexto
   // act => ao executar um código
   // assertion => espero um resultado específico
-  afterEach(() => {
-    sinon.restore()
-  })
-
   describe('signin', () => {
+    afterEach(() => {
+      sinon.restore()
+    })
     describe('Se a requisição não tem campo email', () => {
       it('não será possível fazer login', async () => {
         const response = await chai.request(app)
@@ -77,17 +78,19 @@ describe('Testes da Service User', () => {
         const response = await chai.request(app)
         .post('/login')
         .send({
-          email: 'michelly.daiana@hotmail.com',
+          email: '@user.com',
           password: 'secret_user',
         })
         expect(response.status).to.be.equal(401);
         expect(response.body.message).to.be.equal(invalidDataMessage)
-      });
+      }); sinon.restore()
     });
-      /* describe('Se a requisição recebe campos válidos', () => {
+    describe('Se a requisição recebe campos válidos', () => {
       it('é possível fazer login', async () => {
         sinon.stub(UserModel, 'findOne')
         .resolves(mockValidUser as unknown as UserModel);
+        sinon.stub(bcrypt, 'compareSync')
+        .returns(true);
 
         const response = await chai.request(app)
         .post('/login')
@@ -98,7 +101,7 @@ describe('Testes da Service User', () => {
         expect(response.status).to.be.equal(200);
         expect(response.body.token).not.to.be.empty;
       });
-    }); */
+    });
   });
   describe('getRole', () => {
     describe('Se a requisição não recebe um token', () => {
@@ -120,9 +123,9 @@ describe('Testes da Service User', () => {
         expect(response.body.message).to.be.equal(invalidToken)
       });
     });
-    /* describe('Se a requisição recebe um token válido', () => {
+    describe('Se a requisição recebe um token válido', () => {
       it('é possível retornar os dados corretos', async () => {
-        const token = new Auth().generateToken({
+        const token = Auth.generateToken({
           email: 'admin@admin.com',
           role: 'admin',
         });
@@ -134,6 +137,6 @@ describe('Testes da Service User', () => {
         expect(response.status).to.be.equal(200);
         expect(response.body.message).to.be.deep.equal({ "role": "admin" })
       });
-    }); */
+    });
   });
 });
