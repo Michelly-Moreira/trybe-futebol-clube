@@ -25,7 +25,6 @@ describe('Testes da service Team', () => {
 
     describe('findAll', () => {
     describe('Dado um banco populado', () => {
-     
       it('retorna uma lista com todos os times e seus ids', async () => {
         sinon.stub(TeamModel, 'findAll')
         .resolves(mockAllTeams as TeamModel[]);
