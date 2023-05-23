@@ -3,11 +3,9 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { app } from '../app';
-import UserModel from '../database/models/MatchModel';
-// import { mockValidUser, mockInvalidUser, failureMessage, invalidDataMessage } from './mocks/UserMock';
 import Auth from '../database/utils/Auth';
 import MatchModel from '../database/models/MatchModel';
-import { mockAllMatches } from './mocks/MatchMock';
+import { mockAllMatches, mockMatchesNotInProgress, mockMatchesInProgress } from './mocks/MatchMock';
 
 chai.use(chaiHttp);
 
@@ -20,17 +18,50 @@ describe('Testes da service Match', () => {
   // arrange => dado um contexto
   // act => ao executar um código
   // assertion => espero um resultado específico
-  describe('Dado um banco populado', () => {
-    it('retorna uma lista com todas as partidas', async() => {
-      sinon.stub(MatchModel, 'findAll')
-      .resolves(mockAllMatches as unknown as MatchModel[]);
-
-      const response = await chai.request(app)
-      .get('/matches');
-
-      expect(response.status).to.be.equal(200);
-      expect(response.body).to.be.deep.equal(mockAllMatches);
-    });
+  afterEach(() => {
+    sinon.restore()
   })
+
+  describe('Dado um banco populado', () => {
+    describe('getAllMatches', () => {
+      it('retorna uma lista com todas as partidas', async() => {
+        
+          sinon.stub(MatchModel, 'findAll')
+          .resolves(mockAllMatches as unknown as MatchModel[]);
   
+        const response = await chai.request(app)
+        .get('/matches');
+  
+        expect(response.status).to.be.equal(200);
+        expect(response.body).to.be.deep.equal(mockAllMatches);
+      });
+    });
+    describe('filterMatch', async() => {
+      it('retorna uma lista de partidas finalizadas', async() => {
+        
+          sinon.stub(MatchModel, 'findAll')
+          .resolves(mockMatchesNotInProgress as unknown as MatchModel[]);
+  
+        const response = await chai.request(app)
+        .get('/matches?inProgress=false');
+  
+        expect(response.status).to.be.equal(200);
+        expect(response.body).to.be.deep.equal(mockMatchesNotInProgress);
+      });
+    });
+    describe('filterMatch', async() => {
+      it('retorna uma lista de partidas em andamento', async() => {
+        beforeEach(() => {
+          sinon.stub(MatchModel, 'findAll')
+          .resolves(mockMatchesInProgress as unknown as MatchModel[]);
+        });
+  
+        const response = await chai.request(app)
+        .get('/matches?inProgress=true');
+  
+        expect(response.status).to.be.equal(200);
+        expect(response.body).to.be.deep.equal(mockMatchesInProgress);
+      });
+    });
+  }); 
 });
