@@ -67,7 +67,7 @@ export default class MatchService {
       throw new Error();
     }
     const matchCreated = await MatchModel.create(newMatch);
-    return matchCreated.toJSON();
+    return matchCreated;
   }
 
   // buscando os times da casa com partidas finalizadas, pelo id.

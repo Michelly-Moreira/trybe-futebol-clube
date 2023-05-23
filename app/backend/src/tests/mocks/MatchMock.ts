@@ -1351,8 +1351,28 @@ const mockMatchesInProgress = [
   }
 ]
 
+const dataCreateMatch = {
+  homeTeamId: 16,
+  awayTeamId: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+}
+
+const mockMatchCreated = [
+  {
+    id: 1,
+    homeTeamId: 16,
+    homeTeamGoals: 2,
+    awayTeamId: 8,
+    awayTeamGoals: 2,
+    inProgress: true,
+  }
+]
+
 export {
   mockAllMatches,
   mockMatchesNotInProgress,
   mockMatchesInProgress,
+  dataCreateMatch,
+  mockMatchCreated,
 }

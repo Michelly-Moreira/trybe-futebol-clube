@@ -5,7 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import Auth from '../database/utils/Auth';
 import MatchModel from '../database/models/MatchModel';
-import { mockAllMatches, mockMatchesNotInProgress, mockMatchesInProgress } from './mocks/MatchMock';
+import { mockAllMatches, mockMatchesNotInProgress, mockMatchesInProgress, mockMatchCreated, dataCreateMatch } from './mocks/MatchMock';
 import { invalidToken, withoutToken } from './mocks/UserMock';
 
 chai.use(chaiHttp);
@@ -34,10 +34,11 @@ describe('Testes da service Match', () => {
         .get('/matches');
   
         expect(response.status).to.be.equal(200);
-        expect(response.body).to.be.deep.equal(mockAllMatches);
+        expect(response.body).to.be.deep.equal(mockMatchesNotInProgress);
       });
     });
-    describe('filterMatch', async() => {
+
+    describe('filterMatch', () => {
       it('retorna uma lista de partidas finalizadas', async() => {
         
           sinon.stub(MatchModel, 'findAll')
@@ -49,12 +50,10 @@ describe('Testes da service Match', () => {
         expect(response.status).to.be.equal(200);
         expect(response.body).to.be.deep.equal(mockMatchesNotInProgress);
       });
-    });
-    describe('filterMatch', async() => {
       it('retorna uma lista de partidas em andamento', async() => {
         beforeEach(() => {
           sinon.stub(MatchModel, 'findAll')
-          .resolves(mockMatchesInProgress as unknown as MatchModel[]);
+          .resolves(mockAllMatches as unknown as MatchModel[]);
         });
   
         const response = await chai.request(app)
@@ -64,7 +63,8 @@ describe('Testes da service Match', () => {
         expect(response.body).to.be.deep.equal(mockMatchesInProgress);
       });
     });
-    describe('finishMatch', async() => {
+
+    describe('finishMatch', () => {
       describe('Se a requisição não recebe um token', () => {
         it('não é possível retornar os dados corretos', async() => {
            
@@ -75,8 +75,7 @@ describe('Testes da service Match', () => {
           expect(response.body.message).to.be.deep.equal(withoutToken);
         });
       });
-    });
-    describe('finishMatch', async() => {
+    
       describe('Se a requisição não recebe um token válido', () => {
         it('não é possível retornar os dados corretos', async() => {
            
@@ -88,8 +87,7 @@ describe('Testes da service Match', () => {
           expect(response.body.message).to.be.deep.equal(invalidToken);
         });
       });
-    });
-    describe('finishMatch', async() => {
+    
       describe('Se a requisição recebe um token válido', () => {
         it('é possível retornar a partida finalizada', async() => {
 
@@ -110,12 +108,13 @@ describe('Testes da service Match', () => {
         });
       });
     });
-    describe('MatchInProgress', async() => {
-      describe('Se a requisição recebe um token válido', () => {
-        it('é possível retornar os gols atualizados', async() => {
 
-          sinon.stub(MatchModel, 'update')
-          .resolves([1]);
+    describe('create', () => {
+      describe('Se a requisição recebe um token válido', () => {
+        it('é possível retornar os dados da partida criada', async() => {
+
+          sinon.stub(MatchModel, 'create')
+          .resolves(mockMatchCreated as unknown as MatchModel);
 
           const token = Auth.generateToken({
             email: 'admin@admin.com',
@@ -123,11 +122,12 @@ describe('Testes da service Match', () => {
           })
            
           const response = await chai.request(app)
-          .patch('/matches/41')
-          .set('Authorization', token);
+          .post('/matches')
+          .set('Authorization', token)
+          .send(dataCreateMatch);
     
-          expect(response.status).to.be.equal(200);
-          expect(response.body).to.be.deep.equal({ message: 'congratulations!' });
+          expect(response.status).to.be.equal(201);
+          expect(response.body).to.be.deep.equal(mockMatchCreated);
         });
       });
     });
