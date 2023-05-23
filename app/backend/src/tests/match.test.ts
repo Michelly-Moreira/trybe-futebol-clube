@@ -34,7 +34,7 @@ describe('Testes da service Match', () => {
         .get('/matches');
   
         expect(response.status).to.be.equal(200);
-        expect(response.body).to.be.deep.equal(mockMatchesNotInProgress);
+        expect(response.body).to.be.deep.equal(mockAllMatches);
       });
     });
 
@@ -42,7 +42,7 @@ describe('Testes da service Match', () => {
       it('retorna uma lista de partidas finalizadas', async() => {
         
           sinon.stub(MatchModel, 'findAll')
-          .resolves(mockMatchesNotInProgress as unknown as MatchModel[]);
+          .resolves(mockAllMatches as unknown as MatchModel[]);
   
         const response = await chai.request(app)
         .get('/matches?inProgress=false');
@@ -51,10 +51,9 @@ describe('Testes da service Match', () => {
         expect(response.body).to.be.deep.equal(mockMatchesNotInProgress);
       });
       it('retorna uma lista de partidas em andamento', async() => {
-        beforeEach(() => {
+        
           sinon.stub(MatchModel, 'findAll')
           .resolves(mockAllMatches as unknown as MatchModel[]);
-        });
   
         const response = await chai.request(app)
         .get('/matches?inProgress=true');
