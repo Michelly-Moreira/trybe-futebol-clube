@@ -6,6 +6,7 @@ import { app } from '../app';
 import Auth from '../database/utils/Auth';
 import MatchModel from '../database/models/MatchModel';
 import { mockAllMatches, mockMatchesNotInProgress, mockMatchesInProgress } from './mocks/MatchMock';
+import { withoutToken } from './mocks/UserMock';
 
 chai.use(chaiHttp);
 
@@ -61,6 +62,18 @@ describe('Testes da service Match', () => {
   
         expect(response.status).to.be.equal(200);
         expect(response.body).to.be.deep.equal(mockMatchesInProgress);
+      });
+    });
+    describe('finishMatch', async() => {
+      describe('Se a requisição não recebe um token', () => {
+        it('não é possível retornar os dados corretos', async() => {
+           
+          const response = await chai.request(app)
+          .patch('/matches/41/finish');
+    
+          expect(response.status).to.be.equal(401);
+          expect(response.body.message).to.be.deep.equal(withoutToken);
+        });
       });
     });
   }); 
