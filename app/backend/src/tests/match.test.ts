@@ -110,5 +110,26 @@ describe('Testes da service Match', () => {
         });
       });
     });
+    describe('MatchInProgress', async() => {
+      describe('Se a requisição recebe um token válido', () => {
+        it('é possível retornar os gols atualizados', async() => {
+
+          sinon.stub(MatchModel, 'update')
+          .resolves([1]);
+
+          const token = Auth.generateToken({
+            email: 'admin@admin.com',
+            role: 'admin',
+          })
+           
+          const response = await chai.request(app)
+          .patch('/matches/41')
+          .set('Authorization', token);
+    
+          expect(response.status).to.be.equal(200);
+          expect(response.body).to.be.deep.equal({ message: 'congratulations!' });
+        });
+      });
+    });
   }); 
 });

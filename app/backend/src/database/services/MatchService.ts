@@ -52,7 +52,7 @@ export default class MatchService {
     return { message: 'Finished' };
   }
 
-  // alterando o resultado de uma partida(atualização)
+  // alterando os gols durante a partida(atualização)
   public static async matchInProgress(id: number, matches: {
     homeTeamGoals: number, awayTeamGoals: number }): Promise<{ message: string }> {
     await MatchModel.update(matches, { where: { id } });
